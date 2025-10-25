@@ -1,0 +1,1 @@
+This folder contains the DevOps Cheatsheets logo. Place logo-main.png (main logo) and logo-social-preview.png (for social media) here. Recommended size: 500x500px for main logo, 1200x630px for social preview.
