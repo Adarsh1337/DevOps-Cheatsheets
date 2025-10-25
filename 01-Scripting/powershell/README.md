@@ -5,14 +5,17 @@
 ## Core Concepts
 
 ### Execution Policy
+
 ```powershell
 # Get current execution policy
 Get-ExecutionPolicy
+
 # Set execution policy (run as Administrator)
 Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
 ```
 
 ### Variables and Types
+
 ```powershell
 # Variables
 $Name = "World"
@@ -27,196 +30,236 @@ $Hash = @{ Key = 'Value'; Foo = 'Bar' }
 ```
 
 ### Pipeline and Objects
+
 ```powershell
 # Everything is an object
-Get-Process | Select-Object Name, Id, CPU | Sort-Object CPU -Descending | Format-Table -AutoSize
+Get-Process | Select-Object Name, Id, CPU |
+  Sort-Object CPU -Descending | Format-Table -AutoSize
 
 # Property expansion
-(Get-Service | Where-Object {$_.Status -eq 'Running'}).Count
-
-# Export/Import
-Get-Service | Export-Csv services.csv -NoTypeInformation
-Import-Csv services.csv | Where-Object {$_.Status -eq 'Running'}
+$procs = Get-Process
+$procs.Name
 ```
+
+---
 
 ## Filesystem and Registry
-```powershell
-# Files
-Get-ChildItem -Path C:\ -Recurse -Filter *.log -ErrorAction SilentlyContinue
-New-Item -Path . -Name 'file.txt' -ItemType File
-Set-Content -Path file.txt -Value 'Hello'
-Add-Content -Path file.txt -Value 'World'
-Get-Content -Path file.txt
 
-# Directories
-New-Item -ItemType Directory -Path .\logs
-Remove-Item -Recurse -Force .\logs
+```powershell
+# File operations
+Get-ChildItem -Path C:\\Users -Recurse
+Copy-Item source.txt destination.txt
+Move-Item file.txt newlocation\\
+Remove-Item file.txt
+New-Item -ItemType Directory -Path C:\\NewFolder
 
 # Registry
-Get-ItemProperty 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion' | Select-Object -First 1
+# Read registry value
+Get-ItemProperty -Path 'HKLM:\\Software\\Microsoft\\Windows\\CurrentVersion' -Name ProgramFilesDir
+
+# Set registry value
+Set-ItemProperty -Path 'HKCU:\\Software\\MyApp' -Name Version -Value '1.0'
 ```
 
-## Networking
-```powershell
-# HTTP requests
-Invoke-WebRequest -Uri https://example.com -OutFile index.html
-Invoke-RestMethod -Uri https://api.github.com/repos -Headers @{ 'User-Agent'='ps' }
+---
 
-# DNS and TCP
-Resolve-DnsName google.com
-Test-NetConnection -ComputerName github.com -Port 443
+## Essential Cmdlets
+
+| Cmdlet | Description | Common Parameters |
+| :--- | :--- | :--- |
+| `Get-Command` | List available commands | `-Name`, `-Module` |
+| `Get-Help` | Display help | `-Examples`, `-Online` |
+| `Get-Member` | Object properties/methods | N/A |
+| `Where-Object` | Filter objects | `{$_.Property -eq value}` |
+| `Select-Object` | Select properties | `-First`, `-Last`, `-Property` |
+| `ForEach-Object` | Loop through objects | `{$_ \| Command}` |
+| `Measure-Object` | Calculate stats | `-Sum`, `-Average`, `-Maximum` |
+
+---
+
+## Conditionals and Loops
+
+```powershell
+# If statement
+if ($condition) {
+    # code
+} elseif ($condition2) {
+    # code
+} else {
+    # code
+}
+
+# Switch
+switch ($variable) {
+    value1 { # code }
+    value2 { # code }
+    default { # code }
+}
+
+# ForEach loop
+foreach ($item in $collection) {
+    Write-Host $item
+}
+
+# While loop
+while ($condition) {
+    # code
+}
 ```
 
-## Processes and Services
-```powershell
-# Processes
-Get-Process | Sort-Object CPU -Descending | Select-Object -First 5 Name,CPU,Id
-Stop-Process -Id 1234 -Force
+---
 
-# Services
-Get-Service | Where-Object {$_.Status -eq 'Running'}
-Restart-Service -Name 'Spooler'
-Set-Service -Name 'Spooler' -StartupType Automatic
+## Functions and Modules
+
+```powershell
+# Simple function
+function Get-Greeting {
+    param(
+        [Parameter(Mandatory=$true)]
+        [string]$Name
+    )
+    return "Hello, $Name!"
+}
+
+# Advanced function
+function Invoke-CustomScript {
+    [CmdletBinding()]
+    param(
+        [Parameter(ValueFromPipeline=$true)]
+        [string[]]$InputObject,
+        
+        [switch]$Verbose
+    )
+    
+    begin {
+        Write-Verbose "Starting..."
+    }
+    
+    process {
+        foreach ($item in $InputObject) {
+            Write-Output "Processing: $item"
+        }
+    }
+    
+    end {
+        Write-Verbose "Complete"
+    }
+}
+
+# Import module
+Import-Module ModuleName
 ```
 
-## Remoting and Sessions
+---
+
+## Error Handling
+
 ```powershell
-# Enable remoting (as admin)
-Enable-PSRemoting -Force
-
-# Create session
-$session = New-PSSession -ComputerName server01
-Invoke-Command -Session $session -ScriptBlock { Get-Process }
-Remove-PSSession $session
-```
-
-## Modules and Packages
-```powershell
-# Modules
-Get-Module -ListAvailable
-Install-Module -Name Pester -Scope CurrentUser -Force
-Import-Module Pester
-
-# Packages (winget/choco)
-winget install Git.Git
-choco install 7zip -y
-```
-
-## JSON/YAML and Files
-```powershell
-# JSON
-$json = Get-Content .\config.json -Raw | ConvertFrom-Json
-$json.Property = 'NewValue'
-$json | ConvertTo-Json -Depth 10 | Set-Content .\config.json
-
-# YAML via PSYaml module
-Install-Module -Name powershell-yaml -Scope CurrentUser -Force
-Import-Module powershell-yaml
-$yaml = Get-Content .\config.yaml -Raw | ConvertFrom-Yaml
-$yaml.property = 'value'
-$yaml | ConvertTo-Yaml | Set-Content .\config.yaml
-```
-
-## Error Handling & Logging
-```powershell
-# Try/Catch/Finally
+# Try-Catch-Finally
 try {
-  1/0
-} catch [DivideByZeroException] {
-  Write-Warning "Divide by zero"
+    # Code that might fail
+    Get-Item "NonExistentFile.txt" -ErrorAction Stop
 } catch {
-  Write-Error $_.Exception.Message
+    Write-Error "An error occurred: $_"
+    Write-Host $_.Exception.Message
 } finally {
-  Write-Host "Cleanup"
+    # Always runs
+    Write-Host "Cleanup complete"
 }
 
-# Transcript logging
-Start-Transcript -Path .\session.log
-Stop-Transcript
+# Error variables
+$Error[0]              # Most recent error
+$Error.Clear()         # Clear error buffer
 ```
 
-## Scripting Patterns
-```powershell
-param(
-  [Parameter(Mandatory=$true)]
-  [string]$Name,
-  [ValidateSet('dev','staging','prod')]
-  [string]$Environment = 'dev',
-  [switch]$Verbose
-)
+---
 
-function Write-Info($Message) {
-  Write-Host "[INFO] $Message" -ForegroundColor Cyan
+## Working with JSON and API
+
+```powershell
+# Parse JSON
+$json = Get-Content config.json | ConvertFrom-Json
+
+# Create JSON
+$data = @{
+    Name = "Test"
+    Value = 123
 }
+$data | ConvertTo-Json | Out-File output.json
 
-Write-Info "Deploying to $Environment"
-if ($Verbose) { $PSStyle.OutputRendering = 'Ansi' }
+# REST API
+$response = Invoke-RestMethod -Uri 'https://api.example.com/data' -Method Get
+$response = Invoke-WebRequest -Uri 'https://example.com' -Method Post -Body $body
 ```
 
-## Automation Examples
+---
 
-### Invoke external commands
+## Remoting
+
 ```powershell
-# Git
-& git --version
-& git status
+# Execute command on remote computer
+Invoke-Command -ComputerName Server01 -ScriptBlock { Get-Process }
 
-# Docker
-& docker ps
-& docker run --rm -it alpine:3.19 echo hello
+# Start session
+$session = New-PSSession -ComputerName Server01
+Invoke-Command -Session $session -ScriptBlock { Get-Service }
+Remove-PSSession $session
+
+# Copy files to/from remote
+Copy-Item C:\\Local\\file.txt -Destination C:\\Remote\\ -ToSession $session
 ```
 
-### Windows Task Scheduler
+---
+
+## Best Practices Template
+
 ```powershell
-$action = New-ScheduledTaskAction -Execute 'powershell.exe' -Argument '-File C:\scripts\job.ps1'
-$trigger = New-ScheduledTaskTrigger -Daily -At 3am
-Register-ScheduledTask -Action $action -Trigger $trigger -TaskName 'NightlyJob' -Description 'Nightly maintenance job'
-```
-
-## Best Practices & Gotchas
-
-### ✅ Do's
-- Use cmdlets over legacy EXEs when possible
-- Prefer `Where-Object`/`ForEach-Object` over piping to `where`/`foreach`
-- Use `-ErrorAction` and `-ErrorVariable` for robust error handling
-- Use `Try/Catch` around risky operations
-- Sign scripts in enterprise environments
-
-### ❌ Don'ts
-- Don't disable execution policy globally
-- Don't rely on string parsing when objects are available
-- Don't swallow errors silently
-
-### 🔧 Common Gotchas
-- PowerShell versions differ between Windows PowerShell 5.1 and PowerShell 7+
-- JSON conversion needs `-Depth` for nested structures
-- Remoting requires firewall and service configuration
-
-### 📝 Script Template
-```powershell
+#Requires -Version 5.1
 <#
 .SYNOPSIS
-  Example advanced function template
+    Brief description
 .DESCRIPTION
-  Demonstrates parameters, pipeline, and error handling
+    Detailed description
+.PARAMETER Name
+    Parameter description
+.EXAMPLE
+    PS> .\\Script.ps1 -Name "Test"
+.NOTES
+    Author: Your Name
+    Date: 2024-01-01
 #>
+
 [CmdletBinding()]
 param(
-  [Parameter(Mandatory, ValueFromPipeline)]
-  [string[]]$InputObject,
-  [switch]$WhatIf
+    [Parameter(Mandatory=$true,
+               ValueFromPipeline=$true,
+               HelpMessage="Enter a name")]
+    [ValidateNotNullOrEmpty()]
+    [string]$Name,
+    
+    [Parameter()]
+    [switch]$Force
 )
 
-begin { $count = 0 }
-process {
-  foreach ($item in $InputObject) {
-    $count++
-    Write-Verbose "Processing $item"
-  }
+begin {
+    $ErrorActionPreference = 'Stop'
+    Write-Verbose "Starting script execution"
 }
+
+process {
+    try {
+        # Main logic here
+        Write-Output "Processing: $Name"
+    } catch {
+        Write-Error "Failed to process: $_"
+        throw
+    }
+}
+
 end {
-  Write-Output "Processed $count items"
+    Write-Verbose "Script execution completed"
 }
 ```
 
-This cheatsheet covers essential PowerShell commands, patterns, and automation recipes for DevOps.
+This cheatsheet covers essential PowerShell commands and patterns for
+DevOps workflows.
