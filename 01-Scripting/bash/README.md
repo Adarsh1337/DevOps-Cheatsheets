@@ -5,6 +5,7 @@
 ## Core Concepts
 
 ### Variables and Environment
+
 ```bash
 # Variable assignment (no spaces around =)
 VARIABLE_NAME="value"
@@ -19,273 +20,212 @@ echo "${VAR:?error msg}"  # Error if unset
 ```
 
 ### File Operations
+
 ```bash
 # File tests
 [ -f file ]       # File exists and is regular
 [ -d directory ]  # Directory exists
 [ -e path ]       # Path exists
-[ -r file ]       # File is readable
-[ -w file ]       # File is writable
-[ -x file ]       # File is executable
-[ -s file ]       # File size > 0
+[ -r file ]       # Readable
+[ -w file ]       # Writable
+[ -x file ]       # Executable
 
-# File operations
-touch file.txt           # Create empty file
-cp source destination    # Copy file/directory
-mv old_name new_name    # Move/rename
-rm file.txt             # Remove file
-rm -rf directory        # Remove directory recursively
+# File manipulation
+cp source dest    # Copy
+mv source dest    # Move/rename
+rm file           # Remove
+mkdir -p path     # Create directory (with parents)
 ```
+
+---
 
 ## Essential Commands
 
-| Command | Description | Common Options |
-|---------|-------------|----------------|
-| `ls` | List directory contents | `-la` (long + hidden), `-lh` (human readable) |
-| `cd` | Change directory | `cd -` (previous), `cd ~` (home) |
-| `pwd` | Print working directory | |
-| `find` | Search files/directories | `-name "*.txt"`, `-type f`, `-exec` |
-| `grep` | Search text patterns | `-r` (recursive), `-i` (ignore case), `-n` (line numbers) |
-| `sed` | Stream editor | `s/old/new/g` (substitute), `-i` (in-place) |
-| `awk` | Text processing | `'{print $1}'` (first column) |
-| `sort` | Sort lines | `-n` (numeric), `-r` (reverse), `-k2` (by column 2) |
-| `uniq` | Remove duplicates | `-c` (count), requires sorted input |
-| `cut` | Extract columns | `-d','` (delimiter), `-f1,3` (fields 1,3) |
-| `head` | First lines | `-n 10` (first 10 lines) |
-| `tail` | Last lines | `-n 10` (last 10), `-f` (follow) |
-| `wc` | Word/line/char count | `-l` (lines), `-w` (words), `-c` (characters) |
+| Command | Description | Common Flags |
+| :--- | :--- | :--- |
+| `ls` | List directory contents | `-la` (long + hidden) |
+| `cat` | Display file content | `-n` (line numbers) |
+| `grep` | Search patterns | `-r` (recursive) |
+| `find` | Find files | `-name`, `-type` |
+| `chmod` | Change permissions | `755`, `644` |
+| `chown` | Change ownership | `user:group` |
+
+---
 
 ## Process Management
 
 ```bash
-# Process information
+# Process info
 ps aux              # All processes
-ps -ef              # All processes (alternative format)
-top                 # Real-time process viewer
-htop                # Enhanced top (if installed)
+top / htop          # Interactive process viewer
 pgrep process_name  # Find process ID by name
-pkill process_name  # Kill process by name
 
-# Job control
-command &           # Run in background
-Ctrl+Z              # Suspend current job
-jobs                # List jobs
-fg %1               # Bring job 1 to foreground
-bg %1               # Continue job 1 in background
-nohup command &     # Run immune to hangups
+# Process control
+kill PID            # Send SIGTERM
+kill -9 PID         # Force kill (SIGKILL)
+killall name        # Kill by name
+bg                  # Resume in background
+fg                  # Bring to foreground
+nohup cmd &         # Run detached from terminal
 ```
 
-## Control Structures
+---
 
-### Conditionals
+## Text Processing
+
 ```bash
-# If statement
+# awk - pattern scanning and processing
+awk '{print $1}' file         # Print first column
+awk -F':' '{print $1}' file   # Custom delimiter
+
+# sed - stream editor
+sed 's/old/new/' file         # Replace first occurrence
+sed 's/old/new/g' file        # Replace all occurrences
+sed -i 's/old/new/g' file     # In-place edit
+
+# cut - remove sections
+cut -d':' -f1 file            # Cut by delimiter
+cut -c1-10 file               # Cut by character position
+
+# sort & uniq
+sort file                     # Sort lines
+sort -u file                  # Sort and remove duplicates
+uniq file                     # Remove adjacent duplicates
+```
+
+---
+
+## Conditionals
+
+```bash
 if [ condition ]; then
-    echo "true"
-elif [ other_condition ]; then
-    echo "other true"
+    # commands
+elif [ condition ]; then
+    # commands
 else
-    echo "false"
+    # commands
 fi
 
-# Case statement
-case "$variable" in
-    pattern1)
-        echo "matches pattern1"
-        ;;
-    pattern2|pattern3)
-        echo "matches pattern2 or pattern3"
-        ;;
-    *)
-        echo "default case"
-        ;;
-esac
+# String comparisons
+[ "$str1" = "$str2" ]    # Equal
+[ "$str1" != "$str2" ]   # Not equal
+[ -z "$str" ]            # Empty
+[ -n "$str" ]            # Not empty
+
+# Numeric comparisons
+[ $num1 -eq $num2 ]      # Equal
+[ $num1 -ne $num2 ]      # Not equal
+[ $num1 -lt $num2 ]      # Less than
+[ $num1 -gt $num2 ]      # Greater than
 ```
 
-### Loops
+---
+
+## Loops
+
 ```bash
 # For loop
-for item in list item1 item2; do
+for item in list; do
     echo "$item"
-done
-
-# For loop with range
-for i in {1..10}; do
-    echo "Number: $i"
 done
 
 # While loop
 while [ condition ]; do
-    echo "running"
-    # Don't forget to modify condition!
+    # commands
 done
 
 # Until loop
 until [ condition ]; do
-    echo "waiting"
+    # commands
+done
+
+# C-style for
+for ((i=0; i<10; i++)); do
+    echo "$i"
 done
 ```
+
+---
 
 ## Functions
 
 ```bash
-# Function definition
 function_name() {
-    local local_var="$1"  # First parameter, local scope
-    echo "Processing: $local_var"
-    return 0  # Exit status
+    local local_var="value"    # Local variable
+    echo "Arguments: $@"
+    return 0                   # Exit status
 }
 
-# Function call
-function_name "argument"
-result=$?  # Capture return status
-
-# Parameters
-# $0 - script name
-# $1, $2, $3... - positional parameters
-# $# - number of parameters
-# $@ - all parameters as separate words
-# $* - all parameters as single word
-# $? - exit status of last command
+# Call function
+function_name arg1 arg2
 ```
 
-## I/O Redirection
+---
+
+## Error Handling
 
 ```bash
-# Output redirection
-command > file.txt          # Redirect stdout to file (overwrite)
-command >> file.txt         # Redirect stdout to file (append)
-command 2> error.log        # Redirect stderr to file
-command &> all_output.log   # Redirect both stdout and stderr
-command > /dev/null 2>&1    # Discard all output
+# Exit on error
+set -e                    # Exit on any error
+set -u                    # Error on undefined variable
+set -o pipefail           # Pipe fails if any command fails
+set -euo pipefail         # Combine all
 
-# Input redirection
-command < input.txt         # Read from file
-command << EOF              # Here document
-Line 1
-Line 2
-EOF
-
-# Pipes
-command1 | command2         # Pipe stdout of cmd1 to stdin of cmd2
-command1 |& command2        # Pipe both stdout and stderr
-```
-
-## String Operations
-
-```bash
-string="Hello World"
-
-# Length
-echo ${#string}             # 11
-
-# Substring extraction
-echo ${string:6:5}          # "World" (start at 6, length 5)
-echo ${string:6}            # "World" (start at 6 to end)
-
-# Pattern matching
-echo ${string#Hello }       # "World" (remove shortest match from beginning)
-echo ${string##*/}          # Remove longest match from beginning
-echo ${string%World}        # "Hello " (remove shortest match from end)
-echo ${string%%/*}          # Remove longest match from end
-
-# Pattern replacement
-echo ${string/World/Bash}   # "Hello Bash" (replace first match)
-echo ${string//o/0}         # "Hell0 W0rld" (replace all matches)
-```
-
-## Arrays
-
-```bash
-# Array declaration
-array=("item1" "item2" "item3")
-declare -a indexed_array
-declare -A associative_array
-
-# Array operations
-array[0]="new_item"         # Set element
-echo "${array[0]}"          # Get element
-echo "${array[@]}"          # All elements
-echo "${#array[@]}"         # Array length
-echo "${!array[@]}"         # All indices
-
-# Associative arrays
-associative_array["key"]="value"
-echo "${associative_array[key]}"
-
-# Loop through array
-for item in "${array[@]}"; do
-    echo "$item"
-done
-```
-
-## Best Practices & Gotchas
-
-### ✅ Do's
-- Always quote variables: `"$variable"`
-- Use `#!/bin/bash` shebang for bash-specific features
-- Use `local` for function variables
-- Check command success: `if command; then ... fi`
-- Use `set -e` to exit on first error
-- Use `set -u` to exit on undefined variables
-- Use `shellcheck` to validate scripts
-
-### ❌ Don'ts
-- Don't use `ls` output in scripts, use globs or `find`
-- Don't parse `ps` output, use `pgrep`/`pkill`
-- Don't use `which`, use `command -v`
-- Don't use backticks, use `$(command)`
-- Don't use `cat file | command`, use `command < file`
-
-### 🔧 Common Gotchas
-- **Spaces in filenames**: Always quote paths and use arrays
-- **Exit codes**: 0 means success, non-zero means failure
-- **Variable scope**: Variables are global by default in functions
-- **Command substitution**: `$(command)` strips trailing newlines
-- **Test operators**: Use `[[` for advanced tests, `[` for POSIX compatibility
-
-### 🛡️ Error Handling
-```bash
-#!/bin/bash
-set -euo pipefail  # Exit on error, undefined vars, pipe failures
-
-# Trap errors
-error_handler() {
-    echo "Error on line $1" >&2
-    exit 1
-}
-trap 'error_handler $LINENO' ERR
-
-# Check command success
-if ! command_that_might_fail; then
+# Error checking
+if ! command; then
     echo "Command failed" >&2
     exit 1
 fi
+
+# Trap errors
+trap 'echo "Error on line $LINENO"' ERR
 ```
 
-### 📝 Script Template
-```bash
-#!/bin/bash
-# Script description
-# Usage: script.sh [options] arguments
+---
 
+## Input/Output
+
+```bash
+# Redirection
+command > file            # Overwrite
+command >> file           # Append
+command < file            # Input from file
+command 2> error.log      # Redirect stderr
+command &> all.log        # Redirect stdout and stderr
+
+# Pipes
+command1 | command2       # Pipe stdout
+command1 |& command2      # Pipe stdout and stderr
+
+# Here documents
+cat <<EOF
+Multi-line
+text
+EOF
+```
+
+---
+
+## Best Practices Template
+
+```bash
+#!/usr/bin/env bash
 set -euo pipefail
 
-# Global variables
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-PROGRAM_NAME="$(basename "$0")"
+# Script metadata
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+SCRIPT_NAME="$(basename "$0")"
 
-# Function definitions
+# Usage function
 usage() {
-    cat << EOF
-Usage: $PROGRAM_NAME [OPTIONS] ARGS
+    cat <<EOF
+Usage: $SCRIPT_NAME [OPTIONS]
 
-Description of what this script does.
+Description of what the script does.
 
-OPTIONS:
-    -h, --help     Show this help message
-    -v, --verbose  Enable verbose output
-
+Options:
+    -h, --help      Show this help message
+    -v, --verbose   Enable verbose output
 EOF
 }
 
@@ -319,4 +259,5 @@ main() {
 main "$@"
 ```
 
-This cheatsheet covers the most essential bash scripting concepts and commands used in DevOps workflows.
+This cheatsheet covers the most essential bash scripting concepts and
+commands used in DevOps workflows.
