@@ -1,8 +1,9 @@
 # 🏛️ DevOps Principles and Culture
 
-> A foundational guide to DevOps philosophy, core principles, and cultural values that enable successful digital transformation.
+> A foundational guide to DevOps philosophy, core principles, and cultural
+values that enable successful digital transformation.
 
-[**« Back to Main Table of Contents**](../README.md)
+[« Back to Main Table of Contents](../README.md)
 
 ---
 
@@ -19,19 +20,19 @@
 The Three Ways form the philosophical foundation of DevOps:
 
 1. **Flow** (Systems Thinking)
-   - Optimize the entire value stream from development to production
-   - Make work visible and reduce batch sizes
-   - Eliminate waste and bottlenecks
+   * Optimize the entire value stream from development to production
+   * Make work visible and reduce batch sizes
+   * Eliminate waste and bottlenecks
 
 2. **Feedback** (Amplify Feedback Loops)
-   - Create short, fast feedback loops at all stages
-   - Learn from failures quickly and implement corrections
-   - Embed quality and security at every step
+   * Create short, fast feedback loops at all stages
+   * Learn from failures quickly and implement corrections
+   * Embed quality and security at every step
 
 3. **Continual Learning and Experimentation**
-   - Foster a culture of continuous learning
-   - Encourage risk-taking and experimentation
-   - Turn local discoveries into global improvements
+   * Foster a culture of continuous learning
+   * Encourage risk-taking and experimentation
+   * Turn local discoveries into global improvements
 
 ---
 
@@ -43,78 +44,59 @@ CALMS is an acronym representing the key cultural and technical pillars of DevOp
 | :--- | :--- | :--- |
 | **C**ulture | Shared responsibility, collaboration | Cross-functional teams, blameless postmortems |
 | **A**utomation | Eliminate manual toil | CI/CD pipelines, infrastructure as code |
-| **L**ean | Focus on value, eliminate waste | Small batch sizes, continuous improvement |
-| **M**easurement | Data-driven decisions | Metrics, monitoring, observability |
-| **S**haring | Knowledge transfer, transparency | Documentation, internal talks, open communication |
+| **L**ean | Optimize flow and eliminate waste | Kanban, value stream mapping |
+| **M**easurement | Data-driven decision making | DORA metrics, monitoring, logging |
+| **S**haring | Knowledge transfer and transparency | Documentation, open communication, demos |
 
 ---
 
-## 3. Key DevOps Metrics (DORA)
+## 3. DORA Metrics (Measuring DevOps Performance)
 
-The DevOps Research and Assessment (DORA) team identified four key metrics that measure software delivery performance:
+The DevOps Research and Assessment (DORA) team identified four
+key metrics that measure software delivery performance:
 
-### Lead Time for Changes
-* Time from code commit to code running successfully in production
-* **Elite**: Less than one hour
-* **High**: Between one day and one week
-* **Medium**: Between one week and one month
-* **Low**: More than one month
-
-### Deployment Frequency
-* How often code is deployed to production
-* **Elite**: On-demand (multiple deploys per day)
-* **High**: Between once per day and once per week
-* **Medium**: Between once per week and once per month
-* **Low**: Fewer than once per month
-
-### Change Failure Rate
-* Percentage of changes that result in degraded service or require remediation
-* **Elite**: 0-15%
-* **High**: 16-30%
-* **Medium/Low**: Over 30%
-
-### Time to Restore Service
-* Time it takes to recover from a failure
-* **Elite**: Less than one hour
-* **High**: Less than one day
-* **Medium**: Between one day and one week
-* **Low**: More than one week
+| Metric | Description | Elite Performers | Low Performers |
+| :--- | :--- | :--- | :--- |
+| **Deployment Frequency** | How often code is deployed to production | On-demand (multiple per day) | Between once per week and once per month |
+| **Lead Time for Changes** | Time from code commit to production | Less than one hour | Between one week and one month |
+| **Time to Restore Service** | How quickly service is restored after incident | Less than one hour | Between one week and one month |
+| **Change Failure Rate** | % of changes that result in degraded service | 0-15% | 46-60% |
 
 ---
 
-## 4. DevOps Practices
+## 4. Key Cultural Values
 
-### Version Control
-* All code, configuration, and infrastructure definitions in version control
-* Enables collaboration, traceability, and rollback capabilities
+### Shared Responsibility
 
-### Continuous Integration (CI)
-* Developers integrate code frequently (multiple times per day)
-* Automated builds and tests validate every change
-
-### Continuous Delivery (CD)
-* Code is always in a deployable state
-* Deployment to production is a business decision, not a technical one
-
-### Infrastructure as Code (IaC)
-* Infrastructure defined in version-controlled code
-* Enables repeatability, consistency, and automation
-
-### Monitoring and Observability
-* Real-time visibility into system health and performance
-* Enables proactive problem detection and faster incident response
+* "You build it, you run it" - Teams own their services end-to-end
+* Break down silos between dev, ops, security, and QA
+* Collective ownership of outcomes, not individual blame
 
 ### Blameless Postmortems
-* Learn from failures without assigning blame to individuals
-* Focus on systemic improvements rather than personal accountability
+
+* Focus on systemic issues, not individual mistakes
+* Psychological safety encourages honest discussion
+* Turn incidents into learning opportunities
+
+### Continuous Learning
+
+* Allocate time for experimentation and learning
+* Share knowledge through documentation, demos, and guilds
+* Embrace failure as part of the learning process
+
+### Transparency
+
+* Make work visible (Kanban boards, dashboards)
+* Share metrics and results openly
+* Communicate early and often
 
 ---
 
-## 5. Cultural Anti-Patterns to Avoid
+## 5. Anti-Patterns to Avoid
 
-| Anti-Pattern | Why It's Harmful | Better Approach |
+| Anti-Pattern | Consequence | Better Alternative |
 | :--- | :--- | :--- |
-| Silos and "throw it over the wall" | Creates delays, miscommunication, blame culture | Cross-functional collaboration |
+| Siloed teams | Handoffs, delays, finger-pointing | Cross-functional collaboration |
 | Hero culture | Burnout, single points of failure | Sustainable pace, knowledge sharing |
 | "Not my problem" mindset | Delays resolution, poor customer experience | Shared ownership and responsibility |
 | Blame culture | Fear, hiding mistakes, slow learning | Blameless postmortems, psychological safety |
@@ -125,6 +107,7 @@ The DevOps Research and Assessment (DORA) team identified four key metrics that 
 ## 6. Getting Started with DevOps
 
 ### For Individuals:
+
 1. Learn one scripting language (Bash, Python, PowerShell)
 2. Master Git and version control workflows
 3. Understand Linux fundamentals and command line
@@ -132,6 +115,7 @@ The DevOps Research and Assessment (DORA) team identified four key metrics that 
 5. Practice with containerization (Docker) and orchestration (Kubernetes)
 
 ### For Teams:
+
 1. Start small: Pick one process to automate
 2. Measure your current baseline (DORA metrics)
 3. Break down silos: Create cross-functional teams
@@ -161,4 +145,4 @@ The DevOps Research and Assessment (DORA) team identified four key metrics that 
 
 ---
 
-[**« Back to Main Table of Contents**](../README.md)
+[« Back to Main Table of Contents](../README.md)
