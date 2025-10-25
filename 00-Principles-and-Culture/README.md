@@ -1,7 +1,7 @@
 # 🏛️ DevOps Principles and Culture
 
-> A foundational guide to DevOps philosophy, core principles, and cultural
-values that enable successful digital transformation.
+> A foundational guide to DevOps philosophy, core principles, and
+cultural values that enable successful digital transformation.
 
 [« Back to Main Table of Contents](../README.md)
 
@@ -11,9 +11,12 @@ values that enable successful digital transformation.
 
 ### What is DevOps?
 
-* **DevOps** is a cultural philosophy and set of practices that combines software **Dev**elopment and IT **Op**erations
-* It emphasizes collaboration, automation, continuous improvement, and rapid delivery
-* DevOps breaks down silos between development, operations, and other stakeholders
+* **DevOps** is a cultural philosophy and set of practices that
+  combines software **Dev**elopment and IT **Op**erations
+* It emphasizes collaboration, automation, continuous improvement,
+  and rapid delivery
+* DevOps breaks down silos between development, operations, and
+  other stakeholders
 
 ### The Three Ways
 
@@ -38,29 +41,51 @@ The Three Ways form the philosophical foundation of DevOps:
 
 ## 2. CALMS Framework
 
-CALMS is an acronym representing the key cultural and technical pillars of DevOps:
+CALMS is an acronym representing the key cultural and technical
+pillars of DevOps:
 
 | Pillar | Description | Key Practices |
 | :--- | :--- | :--- |
-| **C**ulture | Shared responsibility, collaboration | Cross-functional teams, blameless postmortems |
-| **A**utomation | Eliminate manual toil | CI/CD pipelines, infrastructure as code |
-| **L**ean | Optimize flow and eliminate waste | Kanban, value stream mapping |
-| **M**easurement | Data-driven decision making | DORA metrics, monitoring, logging |
-| **S**haring | Knowledge transfer and transparency | Documentation, open communication, demos |
+| **C**ulture | Shared responsibility | Blameless postmortems |
+| **A**utomation | Eliminate manual toil | CI/CD, IaC |
+| **L**ean | Optimize flow | Kanban, value streams |
+| **M**easurement | Data-driven decisions | DORA metrics, logging |
+| **S**haring | Knowledge transfer | Docs, open communication |
 
 ---
 
 ## 3. DORA Metrics (Measuring DevOps Performance)
 
-The DevOps Research and Assessment (DORA) team identified four
-key metrics that measure software delivery performance:
+The DORA team identified four key metrics that measure
+software delivery performance:
 
-| Metric | Description | Elite Performers | Low Performers |
-| :--- | :--- | :--- | :--- |
-| **Deployment Frequency** | How often code is deployed to production | On-demand (multiple per day) | Between once per week and once per month |
-| **Lead Time for Changes** | Time from code commit to production | Less than one hour | Between one week and one month |
-| **Time to Restore Service** | How quickly service is restored after incident | Less than one hour | Between one week and one month |
-| **Change Failure Rate** | % of changes that result in degraded service | 0-15% | 46-60% |
+### Deployment Frequency
+
+How often code is deployed to production
+
+* **Elite**: On-demand (multiple per day)
+* **Low**: Between once per week and once per month
+
+### Lead Time for Changes
+
+Time from code commit to production
+
+* **Elite**: Less than one hour
+* **Low**: Between one week and one month
+
+### Time to Restore Service
+
+How quickly service is restored after incident
+
+* **Elite**: Less than one hour
+* **Low**: Between one week and one month
+
+### Change Failure Rate
+
+Percentage of changes that result in degraded service
+
+* **Elite**: 0-15%
+* **Low**: 46-60%
 
 ---
 
@@ -68,7 +93,7 @@ key metrics that measure software delivery performance:
 
 ### Shared Responsibility
 
-* "You build it, you run it" - Teams own their services end-to-end
+* "You build it, you run it" - Teams own services end-to-end
 * Break down silos between dev, ops, security, and QA
 * Collective ownership of outcomes, not individual blame
 
@@ -96,25 +121,26 @@ key metrics that measure software delivery performance:
 
 | Anti-Pattern | Consequence | Better Alternative |
 | :--- | :--- | :--- |
-| Siloed teams | Handoffs, delays, finger-pointing | Cross-functional collaboration |
-| Hero culture | Burnout, single points of failure | Sustainable pace, knowledge sharing |
-| "Not my problem" mindset | Delays resolution, poor customer experience | Shared ownership and responsibility |
-| Blame culture | Fear, hiding mistakes, slow learning | Blameless postmortems, psychological safety |
-| Manual processes | Error-prone, slow, not scalable | Automation at every opportunity |
+| Siloed teams | Delays, finger-pointing | Cross-functional collab |
+| Hero culture | Burnout, SPOFs | Sustainable pace |
+| "Not my problem" | Poor CX | Shared ownership |
+| Blame culture | Fear, hiding mistakes | Psychological safety |
+| Manual processes | Error-prone, slow | Automation |
 
 ---
 
 ## 6. Getting Started with DevOps
 
-### For Individuals:
+### For Individuals
 
 1. Learn one scripting language (Bash, Python, PowerShell)
 2. Master Git and version control workflows
 3. Understand Linux fundamentals and command line
 4. Explore one cloud platform (AWS, Azure, or GCP)
-5. Practice with containerization (Docker) and orchestration (Kubernetes)
+5. Practice with containerization (Docker) and orchestration
+   (Kubernetes)
 
-### For Teams:
+### For Teams
 
 1. Start small: Pick one process to automate
 2. Measure your current baseline (DORA metrics)
@@ -127,8 +153,10 @@ key metrics that measure software delivery performance:
 
 ## 7. Recommended Reading
 
-* **The Phoenix Project** by Gene Kim, Kevin Behr, George Spafford
-* **The DevOps Handbook** by Gene Kim, Jez Humble, Patrick Debois, John Willis
+* **The Phoenix Project** by Gene Kim, Kevin Behr,
+  George Spafford
+* **The DevOps Handbook** by Gene Kim, Jez Humble,
+  Patrick Debois, John Willis
 * **Accelerate** by Nicole Forsgren, Jez Humble, Gene Kim
 * **Site Reliability Engineering** by Google
 * **The Unicorn Project** by Gene Kim
@@ -137,11 +165,16 @@ key metrics that measure software delivery performance:
 
 ## 8. Gotchas & Best Practices
 
-* **Don't treat DevOps as just tooling**: Culture and collaboration are more important than any tool
-* **Avoid "DevOps team" silos**: DevOps is a culture for the entire organization, not a separate team
-* **Start with quick wins**: Build momentum with small, visible improvements
-* **Measure everything**: You can't improve what you don't measure
-* **Embrace failure as learning**: Psychological safety enables innovation
+* **Don't treat DevOps as just tooling**: Culture and
+  collaboration are more important than any tool
+* **Avoid "DevOps team" silos**: DevOps is a culture for the
+  entire organization, not a separate team
+* **Start with quick wins**: Build momentum with small,
+  visible improvements
+* **Measure everything**: You can't improve what you don't
+  measure
+* **Embrace failure as learning**: Psychological safety
+  enables innovation
 
 ---
 
